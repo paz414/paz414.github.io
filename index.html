@@ -12,11 +12,19 @@
     --bg:#0a0c10; --panel:#0e1117; --panel-2:#0b0e14;
     --text:#f5f7fb; --muted:#9aa3b2; --border:#1a2030;
     --accent:#7aa2ff; --accent-2:#9b8cff; --ring:rgba(122,162,255,.25);
+    --flowGrid: rgba(255,255,255,.05);
+    --flowIcon: rgba(255,255,255,.32);
+    --flowGhost: rgba(255,255,255,.06);
+    --cardFill: #0f1117;
   }
   html.light{
     --bg:#ffffff; --panel:#f9fafb; --panel-2:#f3f4f6;
     --text:#0a0c10; --muted:#6b7280; --border:#e5e7eb;
     --accent:#0f172a; --accent-2:#334155;
+    --flowGrid: rgba(2,6,23,.06);
+    --flowIcon: rgba(2,6,23,.35);
+    --flowGhost: rgba(2,6,23,.04);
+    --cardFill: #ffffff;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
@@ -65,32 +73,52 @@
   .nav a{color:var(--muted)} .nav a:hover{color:var(--text)}
   .toggle{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--border);padding:.45rem .85rem;border-radius:999px;background:transparent;color:var(--text);cursor:pointer}
 
-  /* ==================== Tech Stage (kills blank space) ==================== */
-  .stage{
-    position:relative; height:48vh; min-height:360px; border-bottom:1px solid var(--border);
-    background: radial-gradient(1200px 600px at 10% 0%, rgba(124,162,255,.15), transparent 70%),
-                radial-gradient(900px 500px at 100% 20%, rgba(155,140,255,.12), transparent 60%),
-                radial-gradient(1000px 500px at 40% 100%, rgba(80,200,255,.10), transparent 60%),
-                linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
-    overflow:hidden;
-  }
-  .stage canvas{position:absolute;inset:0}
-  .stage .fg{
-    position:absolute;inset:0;pointer-events:none;
+  /* ==================== FlowStage (Stripe-like, non-interactive) ==================== */
+  .flowstage{
+    position:relative;height:420px;border-bottom:1px solid var(--border);overflow:hidden;
     background:
-      repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 80px),
-      repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 80px);
-    opacity:.08;
+      radial-gradient(1200px 600px at 10% 0%, rgba(124,162,255,.15), transparent 70%),
+      radial-gradient(900px 500px at 100% 20%, rgba(155,140,255,.12), transparent 60%),
+      linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
   }
-  .stage .noise{
-    position:absolute;inset:0;opacity:.05;mix-blend-mode:soft-light;pointer-events:none;
-    background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAXUlEQVR4nO3QsQkAIBAEQY//aU2cQwqJ2g0c7m3g8v0Gf0mRDyqGxz8AAK6yF6bq2ZkAAIDB9P8k3WgAAKBP0wAAwE6bAABg0wYAAGDTBgAAYNMGAAAg3m0X3gQ7cQx6Xo2m8h/0o7o2CwAAAABJRU5ErkJggg==');
-    background-size:256px 256px;
+  .flowstage::before{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.10;
+    background:
+      repeating-linear-gradient(90deg, var(--flowGrid) 0 1px, transparent 1px 80px),
+      repeating-linear-gradient(0deg, var(--flowGrid) 0 1px, transparent 1px 80px);
   }
-  .stage .label{
-    position:absolute;left:50%;bottom:24px;transform:translateX(-50%);text-align:center;
-    padding:10px 14px;border:1px solid var(--border);border-radius:999px;background:rgba(10,12,16,.45);backdrop-filter:blur(8px);
-    color:var(--muted);font-weight:600
+  .flow-svg{position:absolute;inset:0;display:block;width:100%;height:100%}
+  .ghost{stroke:var(--flowGrid);fill:transparent}
+  .ghost-icon{stroke:var(--flowIcon);fill:none;stroke-width:2;opacity:.45}
+  .ghost.fade{animation:ghostPulse 6s ease-in-out infinite}
+  @keyframes ghostPulse{ 0%,100%{opacity:.20} 50%{opacity:.55} }
+
+  .flow-card{
+    filter: drop-shadow(0 8px 18px rgba(2,6,23,.25));
+  }
+  .flow-card rect{
+    fill:var(--cardFill);stroke:var(--border);stroke-width:1;
+  }
+  .flow-card text{ font: 600 14px/1 Inter, ui-sans-serif, system-ui; fill: var(--text); }
+
+  /* Animated connector */
+  .flow-base{ filter:url(#softGlow); stroke:url(#flowGrad); stroke-width:6; stroke-linecap:round; opacity:.9 }
+  .flow-overlay{ stroke:url(#flowGrad); stroke-width:6; stroke-linecap:round; opacity:.9 }
+  .flow-highlight{
+    stroke:#fff; stroke-width:7.5; stroke-linecap:round; opacity:.7;
+    stroke-dasharray:120 var(--pathL, 1000);
+    animation:moveDash 4.6s linear infinite;
+    filter:url(#softBloom);
+  }
+  .flow-trail{
+    stroke:#ffffff; stroke-opacity:.22; stroke-width:10; stroke-linecap:round;
+    stroke-dasharray:2 14; animation:trail 9s linear infinite;
+  }
+  @keyframes moveDash{
+    to{ stroke-dashoffset: calc(-1 * var(--pathL, 1000)); }
+  }
+  @keyframes trail{
+    to{ stroke-dashoffset:-2000; }
   }
 
   /* ==================== Reveal ==================== */
@@ -101,6 +129,7 @@
   @media (prefers-reduced-motion: reduce){
     .card:hover{transform:none}
     .reveal{transition:none}
+    .flow-highlight,.flow-trail{animation:none}
   }
 </style>
 </head>
@@ -124,16 +153,105 @@
   </div>
 </header>
 
-<!-- ==================== Tech Stage (animated NN/graph traversal) ==================== -->
-<section id="top" class="stage">
-  <canvas id="fx"></canvas>
-  <div class="fg"></div>
-  <div class="noise"></div>
-  <div class="label">Neural traversal · interactive</div>
+<!-- ==================== FlowStage (Stripe-like) ==================== -->
+<section id="top" class="flowstage">
+  <svg class="flow-svg" viewBox="0 0 1200 420" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <!-- gradient for connector -->
+      <linearGradient id="flowGrad" x1="140" y1="300" x2="1060" y2="220" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#6d28d9"/>
+        <stop offset=".45" stop-color="#4f46e5"/>
+        <stop offset="1" stop-color="#06b6d4"/>
+      </linearGradient>
+      <!-- soft glows -->
+      <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <filter id="softBloom" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+      <!-- card icons as symbols -->
+      <symbol id="ico-connect" viewBox="0 0 24 24">
+        <circle cx="9" cy="12" r="4" fill="#22d3ee"/>
+        <circle cx="14" cy="9" r="4" fill="#6366f1" opacity=".9"/>
+      </symbol>
+      <symbol id="ico-terminal" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="14" rx="3" fill="#6366f1"/>
+        <rect x="7" y="9" width="6" height="2" rx="1" fill="#22d3ee"/>
+        <rect x="7" y="13" width="10" height="2" rx="1" fill="white" opacity=".9"/>
+      </symbol>
+      <symbol id="ico-ghost" viewBox="0 0 24 24">
+        <path d="M6 12h6M6 8h8M6 16h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+
+    <!-- faint ghost grid of tiles -->
+    <g opacity=".9">
+      <!-- columns of rounded squares -->
+      <g transform="translate(80,56)">
+        <!-- 4x4 grid -->
+        <g class="ghost fade" style="animation-delay:.2s">
+          <rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/>
+          <use href="#ico-ghost" x="30" y="30" width="24" height="24" class="ghost-icon"/>
+        </g>
+        <g transform="translate(120,0)" class="ghost"><rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/></g>
+        <g transform="translate(240,0)" class="ghost fade" style="animation-delay:.8s"><rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/></g>
+        <g transform="translate(360,0)" class="ghost"><rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/></g>
+
+        <g transform="translate(0,110)" class="ghost"><rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/></g>
+        <g transform="translate(120,110)" class="ghost fade" style="animation-delay:1.2s"><rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/></g>
+        <g transform="translate(240,110)" class="ghost"><rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/></g>
+        <g transform="translate(360,110)" class="ghost fade" style="animation-delay:.5s"><rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/></g>
+
+        <g transform="translate(0,220)" class="ghost fade" style="animation-delay:1.6s"><rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/></g>
+        <g transform="translate(120,220)" class="ghost"><rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/></g>
+        <g transform="translate(240,220)" class="ghost fade" style="animation-delay:.9s"><rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/></g>
+        <g transform="translate(360,220)" class="ghost"><rect x="0" y="0" width="84" height="84" rx="14" class="ghost"/></g>
+      </g>
+    </g>
+
+    <!-- elevated cards -->
+    <g class="flow-card">
+      <rect x="100" y="250" width="140" height="80" rx="14"/>
+      <use href="#ico-connect" x="116" y="266" width="28" height="28"/>
+      <text x="152" y="290">Connect</text>
+    </g>
+    <g class="flow-card">
+      <rect x="520" y="210" width="140" height="80" rx="14"/>
+      <use href="#ico-terminal" x="536" y="228" width="28" height="28"/>
+      <text x="572" y="252">Terminal</text>
+    </g>
+    <g class="flow-card" opacity=".94">
+      <rect x="940" y="160" width="140" height="80" rx="14"/>
+      <use href="#ico-terminal" x="956" y="178" width="28" height="28"/>
+      <text x="992" y="202">Analytics</text>
+    </g>
+
+    <!-- connector path (one path reused by three strokes) -->
+    <path id="flowPath"
+      d="M 170 290
+         C 220 290 260 270 300 250
+         S 410 210 510 230
+         S 700 270 820 240
+         S 980 200 1030 200"
+      fill="none"/>
+
+    <!-- trailing tiny dash pattern underlay -->
+    <use href="#flowPath" class="flow-trail"/>
+
+    <!-- glow base + solid overlay gradient -->
+    <use href="#flowPath" class="flow-base"/>
+    <use href="#flowPath" class="flow-overlay"/>
+
+    <!-- moving highlight segment -->
+    <use id="flowHighlight" href="#flowPath" class="flow-highlight"/>
+  </svg>
 </section>
 
 <main>
-  <!-- HERO (tight, no big blank) -->
+  <!-- HERO (tight) -->
   <section class="container" style="padding-top:28px">
     <div class="row" style="justify-content:space-between;align-items:end;gap:18px">
       <div>
@@ -349,7 +467,7 @@
   </div>
 </footer>
 
-<!-- ==================== JS: theme, palette, filters, tilt, reveal, stage ==================== -->
+<!-- ==================== JS: theme, filters, tilt, reveal, flow length ==================== -->
 <script>
   // Year
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -366,7 +484,7 @@
     root.classList.toggle('light'); localStorage.setItem('theme', root.classList.contains('light') ? 'light':'dark'); setLabel();
   });
 
-  // Smooth internal link scroll safety
+  // Smooth internal link scroll
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="#"]');
     if (!a) return;
@@ -422,208 +540,13 @@
     }catch(e){}
   });
 
-  /* ==================== Canvas Stage: Neural graph + BFS waves ==================== */
-  (function(){
-    const canvas = document.getElementById('fx');
-    const ctx = canvas.getContext('2d');
-    let w = canvas.width = canvas.clientWidth = canvas.offsetWidth;
-    let h = canvas.height = canvas.clientHeight = canvas.offsetHeight;
-
-    const DPR = Math.min(window.devicePixelRatio || 1, 2);
-    function resize(){
-      const rect = canvas.getBoundingClientRect();
-      w = canvas.width = Math.floor(rect.width * DPR);
-      h = canvas.height = Math.floor(rect.height * DPR);
-    }
-    window.addEventListener('resize', resize); resize();
-
-    // Graph
-    const N = 120;             // nodes
-    const K = 3;               // neighbors
-    const nodes = [];
-    const edges = [];          // [i,j]
-    const edgeSet = new Set(); // "i-j" key to dedupe
-    const radius = Math.min(w,h) * 0.34;
-
-    const rand = (a,b)=>a + Math.random()*(b-a);
-
-    // Create nodes roughly on a shell with jitter
-    for (let i=0;i<N;i++){
-      const ang = rand(0, Math.PI*2);
-      const r = radius * rand(0.35, 1);
-      const cx = w/2, cy = h/2;
-      const x = cx + r * Math.cos(ang);
-      const y = cy + r * Math.sin(ang) * rand(0.75,1);
-      nodes.push({
-        x,y,
-        vx: rand(-0.25,0.25), vy: rand(-0.25,0.25),
-        level: Infinity, // distance in BFS
-        glow: 0
-      });
-    }
-    // K nearest neighbors per node
-    for (let i=0;i<N;i++){
-      const dists = [];
-      for (let j=0;j<N;j++){
-        if (i===j) continue;
-        const dx = nodes[i].x - nodes[j].x;
-        const dy = nodes[i].y - nodes[j].y;
-        dists.push([dx*dx+dy*dy, j]);
-      }
-      dists.sort((a,b)=>a[0]-b[0]);
-      for (let k=0;k<K;k++){
-        const j = dists[k][1];
-        const a = Math.min(i,j), b = Math.max(i,j);
-        const key = a+"-"+b;
-        if (!edgeSet.has(key)){ edgeSet.add(key); edges.push([a,b]); }
-      }
-    }
-
-    // BFS traversal levels from start node
-    let start = Math.floor(Math.random()*N);
-    function computeLevels(root){
-      nodes.forEach(n=>n.level = Infinity);
-      const q = [root]; nodes[root].level = 0;
-      while(q.length){
-        const u = q.shift();
-        for (const [a,b] of edges){
-          const v = (a===u)? b : (b===u)? a : -1;
-          if (v>=0 && nodes[v].level===Infinity){
-            nodes[v].level = nodes[u].level + 1; q.push(v);
-          }
-        }
-      }
-    }
-    computeLevels(start);
-
-    // Interaction
-    const mouse = {x:w/2, y:h/2, active:false};
-    window.addEventListener('pointermove', e=>{
-      const rect = canvas.getBoundingClientRect();
-      mouse.x = (e.clientX - rect.left) * DPR;
-      mouse.y = (e.clientY - rect.top) * DPR;
-      mouse.active = true;
-    });
-    window.addEventListener('pointerleave', ()=>mouse.active=false);
-    window.addEventListener('click', ()=>{
-      start = Math.floor(Math.random()*N);
-      computeLevels(start);
-      // little kick
-      nodes.forEach(n=>{ n.vx += rand(-0.6,0.6); n.vy += rand(-0.6,0.6); });
-    });
-
-    // Drawing helpers
-    function line(a,b,wid,alpha){
-      ctx.globalAlpha = alpha;
-      ctx.lineWidth = wid;
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
-      ctx.stroke();
-      ctx.globalAlpha = 1;
-    }
-    function circle(p,r,alpha,fill=true){
-      ctx.globalAlpha = alpha;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, r, 0, Math.PI*2);
-      if (fill) ctx.fill(); else ctx.stroke();
-      ctx.globalAlpha = 1;
-    }
-
-    let t = 0;
-    function tick(){
-      t += 1/60;
-
-      // gentle parallax center
-      const cx = w/2 + (mouse.active ? (mouse.x - w/2) * 0.02 : 0);
-      const cy = h/2 + (mouse.active ? (mouse.y - h/2) * 0.02 : 0);
-
-      // integrate nodes towards center shell
-      for (const n of nodes){
-        const dx = n.x - cx, dy = n.y - cy;
-        const r = Math.max(1, Math.hypot(dx,dy));
-        const targetR = radius * (0.75 + 0.15*Math.sin(0.6*t + r*0.0009));
-        const k = 0.00035 * (targetR - r);
-        n.vx += (dx/r) * k + 0.18 * Math.sin(t*0.6 + n.x*0.003) * 0.002;
-        n.vy += (dy/r) * k + 0.18 * Math.cos(t*0.6 + n.y*0.003) * 0.002;
-
-        // pointer repulsion
-        if (mouse.active){
-          const mx = n.x - mouse.x, my = n.y - mouse.y, mr = Math.hypot(mx,my);
-          if (mr < 140*DPR){
-            const f = (140*DPR - mr) / (140*DPR) * 0.15;
-            n.vx += (mx/mr) * f; n.vy += (my/mr) * f;
-          }
-        }
-
-        // integrate + damping
-        n.x += n.vx; n.y += n.vy;
-        n.vx *= 0.985; n.vy *= 0.985;
-      }
-
-      // Clear
-      ctx.clearRect(0,0,w,h);
-
-      // Styles
-      ctx.strokeStyle = '#4b79ff';
-      ctx.fillStyle   = '#92a9ff';
-
-      // Current wave phase
-      const speed = 0.8;                 // lower = slower wave
-      const phase = t * speed;
-      const maxLevel = Math.max(...nodes.map(n=>n.level));
-
-      // Edges with traveling packets
-      for (const [ai,bi] of edges){
-        const a = nodes[ai], b = nodes[bi];
-
-        // base line
-        line(a,b,1.2*DPR,0.22);
-
-        // pulse direction from lower-level to higher-level
-        const la = a.level, lb = b.level;
-        let src=a, dst=b, ls=la, ld=lb;
-        if (lb < la){ src=b; dst=a; ls=lb; ld=la; }
-
-        if (ls!==Infinity && ld!==Infinity){
-          const local = phase - ls;                 // wave reached src
-          if (local > 0){
-            const span = Math.max(1, ld - ls);
-            let p = Math.min(1, local / (span*0.9)); // progress along edge
-            if (p>=0 && p<=1){
-              const x = src.x + (dst.x - src.x) * p;
-              const y = src.y + (dst.y - src.y) * p;
-              ctx.fillStyle = 'rgba(146,169,255,0.9)';
-              circle({x,y}, 2.2*DPR, 1, true);
-              ctx.fillStyle = '#92a9ff';
-            }
-          }
-        }
-      }
-
-      // Nodes
-      for (const n of nodes){
-        const l = n.level;
-        let alpha = 0.55;
-        if (l!==Infinity){
-          const local = phase - l;
-          if (local > 0 && local < 1.2){
-            alpha = 0.55 + 0.35 * (1 - Math.abs(local-0.6)/0.6);
-          }
-        }
-        circle(n, 2.4*DPR, alpha, true);
-      }
-
-      // Restart waves periodically
-      if (phase > maxLevel + 3){
-        start = Math.floor(Math.random()*N);
-        computeLevels(start);
-      }
-
-      requestAnimationFrame(tick);
-    }
-    tick();
-  })();
+  // Set connector path length for the moving highlight to be a single segment
+  const path = document.getElementById('flowPath');
+  const hl = document.getElementById('flowHighlight');
+  if (path && hl){
+    const len = path.getTotalLength();
+    hl.style.setProperty('--pathL', len.toFixed(2));
+  }
 </script>
 </body>
 </html>
