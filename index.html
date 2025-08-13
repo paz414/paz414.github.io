@@ -5,117 +5,99 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Parth Singh — Portfolio</title>
 <meta name="color-scheme" content="light dark" />
+<meta name="description" content="Parth Singh — Analytics Engineer, ML systems, IIT Delhi '26" />
 <style>
-  /* ============ Apple-clean base with tech polish ============ */
+  /* ==================== Tokens ==================== */
   :root{
-    --bg: #0b0c10;        /* canvas sits over this */
-    --panel: #0f1115;
-    --text: #f5f6f8;
-    --muted: #9aa0aa;
-    --border: #1c1f28;
-    --ring: rgba(126,164,255,.25);
-    --accent: #87b0ff;    /* subtle blue accent */
-    --glow: 0 0 40px rgba(120,160,255,.25);
+    --bg:#0a0c10; --panel:#0e1117; --panel-2:#0b0e14;
+    --text:#f5f7fb; --muted:#9aa3b2; --border:#1a2030;
+    --accent:#7aa2ff; --accent-2:#9b8cff; --ring:rgba(122,162,255,.25);
   }
   html.light{
-    --bg: #ffffff;
-    --panel: #fafafa;
-    --text: #0a0a0a;
-    --muted: #6b7280;
-    --border: #e5e7eb;
-    --ring: rgba(15,23,42,.15);
-    --accent: #0f172a;
-    --glow: 0 0 32px rgba(15,23,42,.15);
-    color-scheme: light;
+    --bg:#ffffff; --panel:#f9fafb; --panel-2:#f3f4f6;
+    --text:#0a0c10; --muted:#6b7280; --border:#e5e7eb;
+    --accent:#0f172a; --accent-2:#334155;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{
-    margin:0; font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-    background: var(--bg); color:var(--text); line-height:1.6;
-    -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    background:var(--bg);color:var(--text);line-height:1.6;
+    -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
   }
   a{color:inherit;text-decoration:none}
-  .container{max-width:1120px;margin:0 auto;padding:0 16px}
+  .container{max-width:1160px;margin:0 auto;padding:0 20px}
   .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
   .muted{color:var(--muted)}
-  .kbd{font:600 .75rem ui-monospace,SFMono-Regular,Menlo,monospace;border:1px solid var(--border);padding:.15rem .35rem;border-radius:6px;color:var(--muted)}
   .btn{
-    display:inline-flex;align-items:center;gap:.6rem;border:1px solid var(--border);
-    padding:.65rem 1rem;border-radius:999px;font-weight:600;font-size:.92rem;cursor:pointer;
-    background:linear-gradient(180deg,rgba(255,255,255,.04),transparent);
-    box-shadow:var(--glow); transition:transform .08s ease, box-shadow .25s ease, opacity .25s ease;
+    --p:12px;display:inline-flex;align-items:center;gap:.55rem;border:1px solid var(--border);
+    padding:calc(var(--p)-2px) calc(var(--p)+2px);border-radius:999px;font-weight:600;font-size:.95rem;
+    background:transparent;cursor:pointer;transition:.2s transform, .25s box-shadow, .25s border-color;
   }
-  .btn.primary{background:linear-gradient(180deg,#6ea1ff,#4e77ff);color:#fff;border-color:transparent}
-  .btn:hover{box-shadow:0 6px 34px rgba(120,160,255,.25)}
-  .btn:active{transform:translateY(1px)}
-  .chip{
-    padding:.35rem .7rem;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:.78rem;display:inline-flex;align-items:center;gap:.4rem
-  }
+  .btn:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--border) 65%,var(--accent))}
+  .btn.primary{background:linear-gradient(180deg,#7aa2ff,#5a7bff);color:#fff;border-color:transparent;box-shadow:0 10px 35px rgba(122,162,255,.25)}
+  .chip{padding:.38rem .7rem;border:1px solid var(--border);border-radius:999px;color:var(--muted);font-size:.8rem;display:inline-flex;align-items:center;gap:.4rem}
   .card{
-    background:linear-gradient(0deg,var(--panel),var(--panel));
-    border:1px solid var(--border); border-radius:16px; padding:20px; backdrop-filter:saturate(180%) blur(8px);
-    box-shadow:var(--glow); transform:translateZ(0); transition: transform .2s ease, box-shadow .3s ease, border-color .3s ease;
-    will-change: transform;
+    background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 94%,transparent),color-mix(in srgb,var(--panel-2) 92%,transparent));
+    border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 20px 60px rgba(20,24,38,.25);
+    transition:.25s transform,.25s border-color,.25s box-shadow;will-change:transform,box-shadow;
   }
-  .card:hover{transform:translateY(-2px); border-color:color-mix(in srgb, var(--border) 60%, var(--accent)); box-shadow:0 16px 60px rgba(120,160,255,.15)}
-  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);border:0;margin:16px 0}
-  section{scroll-margin-top:96px;padding:72px 0}
-  h1{font-size:clamp(2rem,4vw,3.5rem);line-height:1.15;margin:0 0 .5rem}
-  h2{font-size:clamp(1.6rem,2.5vw,2.25rem);line-height:1.2;margin:0}
-  h3{font-size:1.05rem;margin:.2rem 0 .2rem}
-  p{margin:.25rem 0}
-  .grid{display:grid;gap:16px}
+  .card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--border) 60%,var(--accent));box-shadow:0 28px 80px rgba(122,162,255,.18)}
+  .tilt{transform-style:preserve-3d;perspective:1000px}
+  .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);border:0;margin:22px 0}
+  section{scroll-margin-top:84px;padding:72px 0}
+  h1{font-size:clamp(2rem,4vw,3.2rem);line-height:1.12;margin:0 0 .4rem;font-weight:800;letter-spacing:-.02em}
+  h2{font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.2;margin:0 0 .4rem;font-weight:750}
+  h3{font-size:1.08rem;margin:.2rem 0 .2rem;font-weight:650}
+  p{margin:.35rem 0;max-width:68ch}
+  .grid{display:grid;gap:18px}
   .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
   .grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
-  @media (max-width:900px){ .grid.cols-2,.grid.cols-3{grid-template-columns:1fr} }
+  @media (max-width:980px){ .grid.cols-2,.grid.cols-3{grid-template-columns:1fr} }
+  .kicker{letter-spacing:.18em;text-transform:uppercase;font-size:.78rem;color:var(--muted);margin-bottom:8px}
 
-  /* ---------- Header ---------- */
+  /* ==================== Header ==================== */
   .header{
-    position:sticky;top:0;z-index:50;
-    backdrop-filter:saturate(180%) blur(12px);
-    background:linear-gradient(180deg,rgba(5,8,14,.75),rgba(5,8,14,.45));
-    border-bottom:1px solid var(--border);
+    position:sticky;top:0;z-index:50;backdrop-filter:saturate(180%) blur(10px);
+    background:linear-gradient(180deg,rgba(8,10,16,.75),rgba(8,10,16,.45));border-bottom:1px solid var(--border);
   }
   .nav{display:flex;align-items:center;gap:22px;font-size:.95rem}
-  .nav a{color:var(--muted)}
-  .nav a:hover{color:var(--text)}
-  .toggle{
-    display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--border);
-    padding:.45rem .85rem;border-radius:999px;background:transparent;color:var(--text);cursor:pointer
+  .nav a{color:var(--muted)} .nav a:hover{color:var(--text)}
+  .toggle{display:inline-flex;align-items:center;gap:.5rem;border:1px solid var(--border);padding:.45rem .85rem;border-radius:999px;background:transparent;color:var(--text);cursor:pointer}
+
+  /* ==================== Tech Stage (kills blank space) ==================== */
+  .stage{
+    position:relative; height:48vh; min-height:360px; border-bottom:1px solid var(--border);
+    background: radial-gradient(1200px 600px at 10% 0%, rgba(124,162,255,.15), transparent 70%),
+                radial-gradient(900px 500px at 100% 20%, rgba(155,140,255,.12), transparent 60%),
+                radial-gradient(1000px 500px at 40% 100%, rgba(80,200,255,.10), transparent 60%),
+                linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+    overflow:hidden;
+  }
+  .stage canvas{position:absolute;inset:0}
+  .stage .fg{
+    position:absolute;inset:0;pointer-events:none;
+    background:
+      repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 1px, transparent 1px 80px),
+      repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 80px);
+    opacity:.08;
+  }
+  .stage .noise{
+    position:absolute;inset:0;opacity:.05;mix-blend-mode:soft-light;pointer-events:none;
+    background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAXUlEQVR4nO3QsQkAIBAEQY//aU2cQwqJ2g0c7m3g8v0Gf0mRDyqGxz8AAK6yF6bq2ZkAAIDB9P8k3WgAAKBP0wAAwE6bAABg0wYAAGDTBgAAYNMGAAAg3m0X3gQ7cQx6Xo2m8h/0o7o2CwAAAABJRU5ErkJggg==');
+    background-size:256px 256px;
+  }
+  .stage .label{
+    position:absolute;left:50%;bottom:24px;transform:translateX(-50%);text-align:center;
+    padding:10px 14px;border:1px solid var(--border);border-radius:999px;background:rgba(10,12,16,.45);backdrop-filter:blur(8px);
+    color:var(--muted);font-weight:600
   }
 
-  /* ---------- Hero layout ---------- */
-  .hero{display:grid;grid-template-columns:2fr 1fr;gap:24px;align-items:end}
-  @media (max-width:900px){.hero{grid-template-columns:1fr}}
-  .stat{border-radius:12px;padding:14px;background:color-mix(in srgb, var(--panel) 85%, transparent);border:1px solid var(--border)}
-  .stat .v{font-weight:800;font-size:1.3rem}
-
-  /* Section headers */
-  .kicker{text-transform:uppercase;letter-spacing:.2em;font-size:.8rem;color:var(--muted);margin-bottom:6px}
-
-  /* Reveal-on-scroll */
+  /* ==================== Reveal ==================== */
   .reveal{opacity:0; transform:translateY(10px); transition:opacity .5s ease, transform .5s ease}
   .reveal.revealed{opacity:1; transform:none}
 
-  /* Background layers */
-  #bg-wrap{position:fixed;inset:0;z-index:-2;pointer-events:none}
-  #three{position:absolute;inset:0}
-  .grid-overlay{
-    position:absolute;inset:0; pointer-events:none; opacity:.12;
-    background:
-      radial-gradient(60% 50% at 50% -10%,rgba(120,160,255,.25),transparent 60%),
-      linear-gradient(transparent 60%, rgba(0,0,0,.25)),
-      repeating-linear-gradient(90deg, rgba(255,255,255,.08) 0 1px, transparent 1px 80px),
-      repeating-linear-gradient(0deg, rgba(255,255,255,.05) 0 1px, transparent 1px 80px);
-  }
-  .glow-ring{
-    position:absolute;left:50%;top:10%;width:60vmax;height:60vmax;transform:translate(-50%,0);
-    background:radial-gradient(closest-side, rgba(120,160,255,.08), transparent 70%);
-    filter:blur(20px);
-  }
-
-  /* Reduce motion for accessibility */
+  footer{border-top:1px solid var(--border);padding:40px 0}
   @media (prefers-reduced-motion: reduce){
     .card:hover{transform:none}
     .reveal{transition:none}
@@ -123,16 +105,9 @@
 </style>
 </head>
 <body>
-<!-- Tech background: Three.js canvas + subtle grid -->
-<div id="bg-wrap" aria-hidden="true">
-  <canvas id="three"></canvas>
-  <div class="grid-overlay"></div>
-  <div class="glow-ring"></div>
-</div>
-
 <header class="header">
   <div class="container" style="height:64px;display:flex;align-items:center;justify-content:space-between;">
-    <a href="#top" style="font-weight:700;letter-spacing:.2px">Parth Singh</a>
+    <a href="#top" style="font-weight:800;letter-spacing:.2px">Parth Singh</a>
     <nav class="nav">
       <a href="#experience">Experience</a>
       <a href="#projects">Projects</a>
@@ -149,44 +124,32 @@
   </div>
 </header>
 
-<main id="top">
-  <!-- Hero -->
-  <section class="container" style="padding-top:72px">
-    <div class="hero reveal">
+<!-- ==================== Tech Stage (animated NN/graph traversal) ==================== -->
+<section id="top" class="stage">
+  <canvas id="fx"></canvas>
+  <div class="fg"></div>
+  <div class="noise"></div>
+  <div class="label">Neural traversal · interactive</div>
+</section>
+
+<main>
+  <!-- HERO (tight, no big blank) -->
+  <section class="container" style="padding-top:28px">
+    <div class="row" style="justify-content:space-between;align-items:end;gap:18px">
       <div>
         <h1>Parth Singh</h1>
-        <p style="font-size:1.1rem" class="muted">Analytics Engineer • IIT Delhi B.Tech '26</p>
-        <p style="max-width:46ch;margin-top:14px">
-          Engineer focused on generative analytics, ML systems and reliable data tooling. I ship clean, production-grade features that actually move metrics.
-        </p>
-        <div class="row" style="margin-top:16px">
-          <a class="btn primary" href="#projects">
-            Explore work
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          </a>
-          <a class="btn" href="./resume.pdf" download>
-            Download résumé
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>
-          </a>
+        <p class="muted">Analytics Engineer • IIT Delhi B.Tech '26</p>
+        <p>Engineer focused on generative analytics, ML systems and reliable data tooling. I ship clean, production-grade features that actually move metrics.</p>
+        <div class="row" style="margin-top:12px">
+          <a class="btn primary" href="#projects">Explore work</a>
+          <a class="btn" href="./resume.pdf" download>Download résumé</a>
+          <button id="copyEmail" class="btn" type="button">Copy email</button>
         </div>
-        <div class="row" style="margin-top:10px">
-          <span class="chip">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92V21a1 1 0 0 1-1.09 1 19.86 19.86 0 0 1-8.63-3.07A19.5 19.5 0 0 1 3.07 11.72 19.86 19.86 0 0 1 0 3.09 1 1 0 0 1 1 2h4.09A1 1 0 0 1 6 2.89a12.44 12.44 0 0 0 .7 2.22 1 1 0 0 1-.23 1.11L5.21 7.49a16 16 0 0 0 7.3 7.3l1.27-1.26a1 1 0 0 1 1.11-.24 12.44 12.44 0 0 0 2.22.7A1 1 0 0 1 17.11 15H21a1 1 0 0 1 1 1z"/></svg>
-            +91-6394711881
-          </span>
-          <span class="chip">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A12 12 0 0 0 0 12.7c0 5.4 3.4 10 8.2 11.6.6.1.8-.3.8-.6v-2.2c-3.3.8-4-1.6-4-1.6-.5-1.4-1.2-1.8-1.2-1.8-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 .1.9 1.7 2.8 1.2 0-.8.4-1.3.7-1.6-2.6-.3-5.4-1.4-5.4-6.2 0-1.4.5-2.5 1.2-3.4 0-.3-.5-1.7.1-3.5 0 0 1-.3 3.5 1.3a12.2 12.2 0 0 1 6.4 0c2.5-1.6 3.5-1.3 3.5-1.3.6 1.8.1 3.2.1 3.5.8.9 1.2 2 1.2 3.4 0 4.8-2.8 5.9-5.4 6.2.4.3.8.9.8 1.9v2.8c0 .3.2.7.8.6A12 12 0 0 0 24 12.7 12 12 0 0 0 12 .5Z"/></svg>
-            <a href="https://github.com/paz414" target="_blank" rel="noreferrer">paz414</a>
-          </span>
-        </div>
-        <p class="muted" style="margin-top:8px">Press <span class="kbd">G</span> to jump anywhere.</p>
       </div>
-      <div class="card">
+      <div class="card tilt" style="min-width:260px">
         <div class="grid cols-2">
-          <!-- <div class="stat"><div class="v">0.87</div><small class="muted">Weighted R²</small></div> -->
-          <!-- <div class="stat"><div class="v">#9/500+</div><small class="muted">Hackathon Rank</small></div> -->
-          <!-- <div class="stat"><div class="v">100k+</div><small class="muted">Graph nodes</small></div> -->
-          <!-- <div class="stat"><div class="v">7.817</div><small class="muted">CGPA</small></div> -->
+          <div class="chip">Real-time</div><div class="chip">Ops ready</div>
+          <div class="chip">ML + Data</div><div class="chip">IITD ’26</div>
         </div>
       </div>
     </div>
@@ -194,7 +157,7 @@
 
   <hr class="divider" />
 
-  <!-- Experience -->
+  <!-- EXPERIENCE -->
   <section id="experience">
     <div class="container reveal">
       <div style="margin-bottom:14px">
@@ -202,7 +165,7 @@
         <h2>Experience</h2>
       </div>
       <div class="grid">
-        <article class="card">
+        <article class="card tilt">
           <div class="row" style="justify-content:space-between;align-items:flex-start">
             <div>
               <h3>Analytics Engineer Intern · Chubb</h3>
@@ -225,13 +188,14 @@
 
   <hr class="divider" />
 
-  <!-- Projects -->
+  <!-- PROJECTS -->
   <section id="projects">
     <div class="container reveal">
       <div style="margin-bottom:14px">
         <div class="kicker">Selected work</div>
         <h2>Projects</h2>
       </div>
+
       <div class="row" id="filters" style="margin-bottom:12px">
         <button class="btn chip" data-filter="All">All</button>
         <button class="btn chip" data-filter="ML">ML</button>
@@ -241,7 +205,7 @@
       </div>
 
       <div class="grid cols-3" id="projectGrid">
-        <article class="card project" data-cats="ML,Data">
+        <article class="card project tilt" data-cats="ML,Data">
           <div class="row" style="justify-content:space-between">
             <h3>Railway Incident Prediction (CRIS)</h3><span class="chip">ML</span>
           </div>
@@ -249,7 +213,7 @@
           <p>Predictive models for railway failures using heterogeneous signals with automated alignment of fault codes to operational and environmental signals.</p>
         </article>
 
-        <article class="card project" data-cats="ML,Quant">
+        <article class="card project tilt" data-cats="ML,Quant">
           <div class="row" style="justify-content:space-between">
             <h3>Real-Time Market Data Forecasting (Jane Street)</h3><span class="chip">Quant</span>
           </div>
@@ -257,7 +221,7 @@
           <p>TimeXer with weighted R² 0.87; faster imputation and integrated exogenous/endogenous inputs.</p>
         </article>
 
-        <article class="card project" data-cats="Systems">
+        <article class="card project tilt" data-cats="Systems">
           <div class="row" style="justify-content:space-between">
             <h3>Parallel Graph Centrality (OpenMP)</h3><span class="chip">Systems</span>
           </div>
@@ -265,7 +229,7 @@
           <p>Degree and betweenness centrality with OpenMP; hybrid ranking for top-k influencers on graphs with 100k+ nodes and 13M edges.</p>
         </article>
 
-        <article class="card project" data-cats="Systems">
+        <article class="card project tilt" data-cats="Systems">
           <div class="row" style="justify-content:space-between">
             <h3>Virtual Machine Implementation (C++)</h3><span class="chip">Systems</span>
           </div>
@@ -273,7 +237,7 @@
           <p>Custom stack-based virtual CPU with assembler and lexer; file I/O, custom ISA, and debugging tools.</p>
         </article>
 
-        <article class="card project" data-cats="ML">
+        <article class="card project tilt" data-cats="ML">
           <div class="row" style="justify-content:space-between">
             <h3>Resume Anomaly Detection</h3><span class="chip">ML</span>
           </div>
@@ -286,7 +250,7 @@
 
   <hr class="divider" />
 
-  <!-- Skills -->
+  <!-- SKILLS -->
   <section id="skills">
     <div class="container reveal">
       <div style="margin-bottom:14px">
@@ -294,20 +258,20 @@
         <h2>Skills</h2>
       </div>
       <div class="grid cols-3">
-        <div class="card">
+        <div class="card tilt">
           <h3>Languages</h3>
           <div class="row" style="margin-top:8px">
             <span class="chip">Python</span><span class="chip">C++</span><span class="chip">Java</span>
           </div>
         </div>
-        <div class="card">
+        <div class="card tilt">
           <h3>Analytics</h3>
           <div class="row" style="margin-top:8px">
             <span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">scikit-learn</span>
             <span class="chip">Pandas</span><span class="chip">NumPy</span><span class="chip">Plotly</span>
           </div>
         </div>
-        <div class="card">
+        <div class="card tilt">
           <h3>Web</h3>
           <div class="row" style="margin-top:8px">
             <span class="chip">JavaScript</span><span class="chip">HTML/CSS</span><span class="chip">MySQL</span>
@@ -319,7 +283,7 @@
 
   <hr class="divider" />
 
-  <!-- Achievements -->
+  <!-- ACHIEVEMENTS -->
   <section id="achievements">
     <div class="container reveal">
       <div style="margin-bottom:14px">
@@ -327,26 +291,26 @@
         <h2>Achievements</h2>
       </div>
       <div class="grid cols-2">
-        <div class="card">Global Rank 9/500+ in Chubb hackathon (GPT-4 BI agent)</div>
-        <div class="card">Exchange Exam Rank 10/1200+ at IIT Delhi; KAIST offer</div>
-        <div class="card">Endowment Merit Scholarship (Top 5% dept.)</div>
-        <div class="card">Merit-based Branch Change (Top 7% first-year)</div>
-        <div class="card">INSPIRE Scholarship (Top 1% Class XII)</div>
-        <div class="card">JEE Advanced AIR 2291 (Top 0.9%)</div>
+        <div class="card tilt">Global Rank 9/500+ in Chubb hackathon (GPT-4 BI agent)</div>
+        <div class="card tilt">Exchange Exam Rank 10/1200+ at IIT Delhi; KAIST offer</div>
+        <div class="card tilt">Endowment Merit Scholarship (Top 5% dept.)</div>
+        <div class="card tilt">Merit-based Branch Change (Top 7% first-year)</div>
+        <div class="card tilt">INSPIRE Scholarship (Top 1% Class XII)</div>
+        <div class="card tilt">JEE Advanced AIR 2291 (Top 0.9%)</div>
       </div>
     </div>
   </section>
 
   <hr class="divider" />
 
-  <!-- Education -->
+  <!-- EDUCATION -->
   <section id="education">
     <div class="container reveal">
       <div style="margin-bottom:14px">
         <div class="kicker">Academic</div>
         <h2>Education</h2>
       </div>
-      <div class="card row" style="justify-content:space-between">
+      <div class="card row tilt" style="justify-content:space-between">
         <div>
           <h3>Indian Institute of Technology, Delhi</h3>
           <small class="muted">B.Tech (2022–2026)</small>
@@ -358,7 +322,7 @@
 
   <hr class="divider" />
 
-  <!-- Extras -->
+  <!-- EXTRAS -->
   <section id="extras">
     <div class="container reveal">
       <div style="margin-bottom:14px">
@@ -366,15 +330,15 @@
         <h2>Beyond work</h2>
       </div>
       <div class="grid cols-3">
-        <div class="card">Academic Mentor, ELL101 (2023)</div>
-        <div class="card">Captain, Lawn Tennis — Satpura Hostel (2024)</div>
-        <div class="card">WCA Rankings: #140 India, #3358 World (2024)</div>
+        <div class="card tilt">Academic Mentor, ELL101 (2023)</div>
+        <div class="card tilt">Captain, Lawn Tennis — Satpura Hostel (2024)</div>
+        <div class="card tilt">WCA Rankings: #140 India, #3358 World (2024)</div>
       </div>
     </div>
   </section>
 </main>
 
-<footer style="padding:40px 0;border-top:1px solid var(--border)">
+<footer>
   <div class="container row" style="justify-content:space-between;">
     <small class="muted">© <span id="year"></span> Parth Singh. Built with clean edges.</small>
     <div class="row">
@@ -385,158 +349,7 @@
   </div>
 </footer>
 
-<!-- Command palette -->
-<div id="overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;padding:24px;z-index:60">
-  <div style="width:min(720px,92vw);background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:14px 14px 6px;box-shadow:var(--glow)">
-    <label class="sr-only" style="position:absolute;left:-10000px">Jump to Section</label>
-    <input id="jumpInput" placeholder="Jump to… (Experience, Projects, Skills, Achievements, Education, Beyond)"
-      style="width:100%;padding:.7rem;border:1px solid var(--border);border-radius:10px;background:transparent;color:var(--text);outline:2px solid transparent;outline-offset:2px" />
-    <div style="margin-top:10px;border-top:1px solid var(--border)" id="jumpRows">
-      <a href="#experience" style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border);color:var(--text)">Experience <span class="kbd">Enter</span></a>
-      <a href="#projects" style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border);color:var(--text)">Projects <span class="kbd">Enter</span></a>
-      <a href="#skills" style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border);color:var(--text)">Skills <span class="kbd">Enter</span></a>
-      <a href="#achievements" style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border);color:var(--text)">Achievements <span class="kbd">Enter</span></a>
-      <a href="#education" style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border);color:var(--text)">Education <span class="kbd">Enter</span></a>
-      <a href="#extras" style="display:flex;justify-content:space-between;padding:10px;color:var(--text)">Beyond work <span class="kbd">Enter</span></a>
-    </div>
-  </div>
-</div>
-
-<!-- Three.js background and interactions -->
-<script type="module">
-  import * as THREE from 'https://unpkg.com/three@0.160.0/build/three.module.js';
-
-  /* ---------- Scene ---------- */
-  const canvas = document.getElementById('three');
-  const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-  renderer.setPixelRatio(dpr);
-
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 1000);
-  camera.position.set(0, 0, 140);
-
-  const resize = () => {
-    const w = window.innerWidth, h = window.innerHeight;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  };
-  resize(); window.addEventListener('resize', resize);
-
-  /* ---------- Tech “graph” background: drifting nodes + edges ---------- */
-  const N = 180;
-  const radius = 80;
-  const nodes = [];
-  const positions = new Float32Array(N * 3);
-  const velocities = new Float32Array(N * 3);
-  for (let i = 0; i < N; i++) {
-    // random on sphere, then jitter inward
-    const u = Math.random(), v = Math.random();
-    const theta = 2 * Math.PI * u, phi = Math.acos(2 * v - 1);
-    const r = radius * (0.7 + Math.random() * 0.3);
-    const x = r * Math.sin(phi) * Math.cos(theta);
-    const y = r * Math.sin(phi) * Math.sin(theta);
-    const z = r * Math.cos(phi);
-    positions[i*3+0] = x; positions[i*3+1] = y; positions[i*3+2] = z;
-    velocities[i*3+0] = (Math.random()-0.5)*0.06;
-    velocities[i*3+1] = (Math.random()-0.5)*0.06;
-    velocities[i*3+2] = (Math.random()-0.5)*0.06;
-    nodes.push({x,y,z});
-  }
-
-  // Points
-  const pGeo = new THREE.BufferGeometry();
-  pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const pMat = new THREE.PointsMaterial({ color: 0x92a9ff, size: 2.2, sizeAttenuation: true, transparent: true, opacity: 0.9 });
-  const points = new THREE.Points(pGeo, pMat);
-  scene.add(points);
-
-  // Edges: connect to 3 nearest neighbors at init
-  const K = 3;
-  const edgePairs = [];
-  for (let i = 0; i < N; i++) {
-    const dists = [];
-    for (let j = 0; j < N; j++) if (j !== i) {
-      const dx = positions[i*3]-positions[j*3], dy = positions[i*3+1]-positions[j*3+1], dz = positions[i*3+2]-positions[j*3+2];
-      dists.push([dx*dx+dy*dy+dz*dz, j]);
-    }
-    dists.sort((a,b)=>a[0]-b[0]);
-    for (let k = 0; k < K; k++) edgePairs.push([i, dists[k][1]]);
-  }
-  const lPositions = new Float32Array(edgePairs.length * 2 * 3);
-  const lGeo = new THREE.BufferGeometry();
-  lGeo.setAttribute('position', new THREE.BufferAttribute(lPositions, 3));
-  const lMat = new THREE.LineBasicMaterial({ color: 0x4b79ff, transparent: true, opacity: 0.28 });
-  const lines = new THREE.LineSegments(lGeo, lMat);
-  scene.add(lines);
-
-  // Mouse parallax and gentle attraction
-  const mouse = new THREE.Vector2(0,0);
-  window.addEventListener('pointermove', e => {
-    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-  });
-
-  // Pulse on click
-  window.addEventListener('click', () => {
-    for (let i = 0; i < N; i++) {
-      velocities[i*3+0] += (Math.random()-0.5)*0.8;
-      velocities[i*3+1] += (Math.random()-0.5)*0.8;
-      velocities[i*3+2] += (Math.random()-0.5)*0.8;
-    }
-  });
-
-  // Animation
-  let t = 0;
-  function tick(){
-    t += 0.005;
-    // parallax camera
-    camera.position.x = mouse.x * 8;
-    camera.position.y = mouse.y * 6;
-    camera.lookAt(0,0,0);
-
-    // update nodes with mild spring toward sphere shell + drag
-    for (let i = 0; i < N; i++) {
-      const ix = i*3;
-      let x = positions[ix], y = positions[ix+1], z = positions[ix+2];
-
-      // tend toward a wobbling shell
-      const targetR = radius * (0.85 + 0.10 * Math.sin(t + i*0.17));
-      const r = Math.max(1e-3, Math.sqrt(x*x+y*y+z*z));
-      const k = 0.0008 * (targetR - r);
-      velocities[ix]   += (x/r) * k + 0.001 * Math.sin(t + i*0.3);
-      velocities[ix+1] += (y/r) * k + 0.001 * Math.cos(t*1.1 + i*0.19);
-      velocities[ix+2] += (z/r) * k + 0.0012 * Math.sin(t*1.3 + i*0.11);
-
-      // pointer repulsion (projected)
-      velocities[ix]   += (mouse.x * 0.02);
-      velocities[ix+1] += (mouse.y * 0.02);
-
-      // integrate + damping
-      positions[ix]   = x + velocities[ix];
-      positions[ix+1] = y + velocities[ix+1];
-      positions[ix+2] = z + velocities[ix+2];
-      velocities[ix]  *= 0.985; velocities[ix+1]*=0.985; velocities[ix+2]*=0.985;
-    }
-    pGeo.attributes.position.needsUpdate = true;
-
-    // update line positions
-    let lp = 0;
-    for (const [a,b] of edgePairs){
-      const a3 = a*3, b3 = b*3;
-      lPositions[lp++] = positions[a3];   lPositions[lp++] = positions[a3+1];   lPositions[lp++] = positions[a3+2];
-      lPositions[lp++] = positions[b3];   lPositions[lp++] = positions[b3+1];   lPositions[lp++] = positions[b3+2];
-    }
-    lGeo.attributes.position.needsUpdate = true;
-
-    renderer.render(scene, camera);
-    requestAnimationFrame(tick);
-  }
-  tick();
-</script>
-
-<!-- UI behavior -->
+<!-- ==================== JS: theme, palette, filters, tilt, reveal, stage ==================== -->
 <script>
   // Year
   document.getElementById('year').textContent = new Date().getFullYear();
@@ -565,38 +378,252 @@
   // Filters
   const grid = document.getElementById('projectGrid');
   const buttons = document.querySelectorAll('#filters .btn');
-  buttons.forEach(btn => btn.addEventListener('click', () => {
-    buttons.forEach(b => b.classList.remove('primary'));
-    btn.classList.add('primary');
-    const want = btn.dataset.filter;
-    grid.querySelectorAll('.project').forEach(card => {
-      const cats = card.dataset.cats.split(',').map(s => s.trim());
-      card.style.display = (want === 'All' || cats.includes(want)) ? '' : 'none';
-    });
-  }));
-  // mark "All" active initially
-  document.querySelector('#filters [data-filter="All"]').classList.add('primary');
-
-  // Command palette: press G
-  const overlay = document.getElementById('overlay');
-  const jumpInput = document.getElementById('jumpInput');
-  const jumpRows = document.getElementById('jumpRows');
-  const entries = Array.from(jumpRows.querySelectorAll('a'));
-  const openPalette = () => { overlay.style.display='flex'; jumpInput.value=''; jumpInput.focus(); filterPalette(''); };
-  const closePalette = () => { overlay.style.display='none'; };
-  const filterPalette = (q) => entries.forEach(a => a.style.display = a.textContent.toLowerCase().includes(q.toLowerCase()) ? 'flex' : 'none');
-  window.addEventListener('keydown', (e) => {
-    if (e.key.toLowerCase() === 'g' && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); openPalette(); }
-    else if (e.key === 'Escape' && overlay.style.display === 'flex') closePalette();
-  });
-  jumpInput.addEventListener('input', (e) => filterPalette(e.target.value));
-  jumpInput.addEventListener('keydown', (e) => { if (e.key === 'Enter'){ const first = entries.find(a => a.style.display !== 'none'); if (first){ location.hash = first.getAttribute('href'); closePalette(); } } });
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) closePalette(); });
+  if (buttons.length){
+    buttons.forEach(btn => btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('primary'));
+      btn.classList.add('primary');
+      const want = btn.dataset.filter;
+      grid.querySelectorAll('.project').forEach(card => {
+        const cats = card.dataset.cats.split(',').map(s => s.trim());
+        card.style.display = (want === 'All' || cats.includes(want)) ? '' : 'none';
+      });
+    }));
+    document.querySelector('#filters [data-filter="All"]').classList.add('primary');
+  }
 
   // Reveal on scroll
-  const io = new IntersectionObserver((entries)=>entries.forEach(ent=>ent.isIntersecting && ent.target.classList.add('revealed')), {threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  const io = new IntersectionObserver((ents)=>ents.forEach(ent=> ent.isIntersecting && ent.target.classList.add('revealed')), {threshold:.12});
   document.querySelectorAll('section .container').forEach(el=>{ el.classList.add('reveal'); io.observe(el); });
+
+  // Subtle tilt on hover
+  const tilts = document.querySelectorAll('.tilt');
+  const clamp = (n,min,max)=>Math.max(min,Math.min(max,n));
+  tilts.forEach(el=>{
+    let rAF = null;
+    const onMove = (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left, y = e.clientY - rect.top;
+      const rx = clamp(((y/rect.height)-0.5)*6, -6, 6);
+      const ry = clamp(((x/rect.width)-0.5)*-6, -6, 6);
+      if (rAF) cancelAnimationFrame(rAF);
+      rAF = requestAnimationFrame(()=>{ el.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-3px)`; });
+    };
+    const reset = ()=>{ el.style.transform = ''; };
+    el.addEventListener('pointermove', onMove);
+    el.addEventListener('pointerleave', reset);
+  });
+
+  // Copy email nicety
+  const copyBtn = document.getElementById('copyEmail');
+  if (copyBtn) copyBtn.addEventListener('click', async () => {
+    try{
+      await navigator.clipboard.writeText('singh.parthiitd@gmail.com');
+      const old = copyBtn.textContent; copyBtn.textContent = 'Copied ✓'; setTimeout(()=>copyBtn.textContent = old, 1200);
+    }catch(e){}
+  });
+
+  /* ==================== Canvas Stage: Neural graph + BFS waves ==================== */
+  (function(){
+    const canvas = document.getElementById('fx');
+    const ctx = canvas.getContext('2d');
+    let w = canvas.width = canvas.clientWidth = canvas.offsetWidth;
+    let h = canvas.height = canvas.clientHeight = canvas.offsetHeight;
+
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    function resize(){
+      const rect = canvas.getBoundingClientRect();
+      w = canvas.width = Math.floor(rect.width * DPR);
+      h = canvas.height = Math.floor(rect.height * DPR);
+    }
+    window.addEventListener('resize', resize); resize();
+
+    // Graph
+    const N = 120;             // nodes
+    const K = 3;               // neighbors
+    const nodes = [];
+    const edges = [];          // [i,j]
+    const edgeSet = new Set(); // "i-j" key to dedupe
+    const radius = Math.min(w,h) * 0.34;
+
+    const rand = (a,b)=>a + Math.random()*(b-a);
+
+    // Create nodes roughly on a shell with jitter
+    for (let i=0;i<N;i++){
+      const ang = rand(0, Math.PI*2);
+      const r = radius * rand(0.35, 1);
+      const cx = w/2, cy = h/2;
+      const x = cx + r * Math.cos(ang);
+      const y = cy + r * Math.sin(ang) * rand(0.75,1);
+      nodes.push({
+        x,y,
+        vx: rand(-0.25,0.25), vy: rand(-0.25,0.25),
+        level: Infinity, // distance in BFS
+        glow: 0
+      });
+    }
+    // K nearest neighbors per node
+    for (let i=0;i<N;i++){
+      const dists = [];
+      for (let j=0;j<N;j++){
+        if (i===j) continue;
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
+        dists.push([dx*dx+dy*dy, j]);
+      }
+      dists.sort((a,b)=>a[0]-b[0]);
+      for (let k=0;k<K;k++){
+        const j = dists[k][1];
+        const a = Math.min(i,j), b = Math.max(i,j);
+        const key = a+"-"+b;
+        if (!edgeSet.has(key)){ edgeSet.add(key); edges.push([a,b]); }
+      }
+    }
+
+    // BFS traversal levels from start node
+    let start = Math.floor(Math.random()*N);
+    function computeLevels(root){
+      nodes.forEach(n=>n.level = Infinity);
+      const q = [root]; nodes[root].level = 0;
+      while(q.length){
+        const u = q.shift();
+        for (const [a,b] of edges){
+          const v = (a===u)? b : (b===u)? a : -1;
+          if (v>=0 && nodes[v].level===Infinity){
+            nodes[v].level = nodes[u].level + 1; q.push(v);
+          }
+        }
+      }
+    }
+    computeLevels(start);
+
+    // Interaction
+    const mouse = {x:w/2, y:h/2, active:false};
+    window.addEventListener('pointermove', e=>{
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = (e.clientX - rect.left) * DPR;
+      mouse.y = (e.clientY - rect.top) * DPR;
+      mouse.active = true;
+    });
+    window.addEventListener('pointerleave', ()=>mouse.active=false);
+    window.addEventListener('click', ()=>{
+      start = Math.floor(Math.random()*N);
+      computeLevels(start);
+      // little kick
+      nodes.forEach(n=>{ n.vx += rand(-0.6,0.6); n.vy += rand(-0.6,0.6); });
+    });
+
+    // Drawing helpers
+    function line(a,b,wid,alpha){
+      ctx.globalAlpha = alpha;
+      ctx.lineWidth = wid;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+    function circle(p,r,alpha,fill=true){
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, r, 0, Math.PI*2);
+      if (fill) ctx.fill(); else ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+
+    let t = 0;
+    function tick(){
+      t += 1/60;
+
+      // gentle parallax center
+      const cx = w/2 + (mouse.active ? (mouse.x - w/2) * 0.02 : 0);
+      const cy = h/2 + (mouse.active ? (mouse.y - h/2) * 0.02 : 0);
+
+      // integrate nodes towards center shell
+      for (const n of nodes){
+        const dx = n.x - cx, dy = n.y - cy;
+        const r = Math.max(1, Math.hypot(dx,dy));
+        const targetR = radius * (0.75 + 0.15*Math.sin(0.6*t + r*0.0009));
+        const k = 0.00035 * (targetR - r);
+        n.vx += (dx/r) * k + 0.18 * Math.sin(t*0.6 + n.x*0.003) * 0.002;
+        n.vy += (dy/r) * k + 0.18 * Math.cos(t*0.6 + n.y*0.003) * 0.002;
+
+        // pointer repulsion
+        if (mouse.active){
+          const mx = n.x - mouse.x, my = n.y - mouse.y, mr = Math.hypot(mx,my);
+          if (mr < 140*DPR){
+            const f = (140*DPR - mr) / (140*DPR) * 0.15;
+            n.vx += (mx/mr) * f; n.vy += (my/mr) * f;
+          }
+        }
+
+        // integrate + damping
+        n.x += n.vx; n.y += n.vy;
+        n.vx *= 0.985; n.vy *= 0.985;
+      }
+
+      // Clear
+      ctx.clearRect(0,0,w,h);
+
+      // Styles
+      ctx.strokeStyle = '#4b79ff';
+      ctx.fillStyle   = '#92a9ff';
+
+      // Current wave phase
+      const speed = 0.8;                 // lower = slower wave
+      const phase = t * speed;
+      const maxLevel = Math.max(...nodes.map(n=>n.level));
+
+      // Edges with traveling packets
+      for (const [ai,bi] of edges){
+        const a = nodes[ai], b = nodes[bi];
+
+        // base line
+        line(a,b,1.2*DPR,0.22);
+
+        // pulse direction from lower-level to higher-level
+        const la = a.level, lb = b.level;
+        let src=a, dst=b, ls=la, ld=lb;
+        if (lb < la){ src=b; dst=a; ls=lb; ld=la; }
+
+        if (ls!==Infinity && ld!==Infinity){
+          const local = phase - ls;                 // wave reached src
+          if (local > 0){
+            const span = Math.max(1, ld - ls);
+            let p = Math.min(1, local / (span*0.9)); // progress along edge
+            if (p>=0 && p<=1){
+              const x = src.x + (dst.x - src.x) * p;
+              const y = src.y + (dst.y - src.y) * p;
+              ctx.fillStyle = 'rgba(146,169,255,0.9)';
+              circle({x,y}, 2.2*DPR, 1, true);
+              ctx.fillStyle = '#92a9ff';
+            }
+          }
+        }
+      }
+
+      // Nodes
+      for (const n of nodes){
+        const l = n.level;
+        let alpha = 0.55;
+        if (l!==Infinity){
+          const local = phase - l;
+          if (local > 0 && local < 1.2){
+            alpha = 0.55 + 0.35 * (1 - Math.abs(local-0.6)/0.6);
+          }
+        }
+        circle(n, 2.4*DPR, alpha, true);
+      }
+
+      // Restart waves periodically
+      if (phase > maxLevel + 3){
+        start = Math.floor(Math.random()*N);
+        computeLevels(start);
+      }
+
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
 </script>
 </body>
 </html>
