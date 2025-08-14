@@ -3,10 +3,21 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Parth Singh — Terminal Portfolio v2</title>
+<title>Parth Singh — Terminal Portfolio</title>
 <meta name="color-scheme" content="light dark" />
-<meta name="description" content="Parth Singh — Analytics Engineer, ML systems, IIT Delhi '26" />
+<meta name="description" content="Parth Singh — ME Senior @ IIT Delhi '26 | CS Minor | Ex-Chubb Analytics" />
 <style>
+    .badge{
+  display:inline-block;
+  padding:2px 8px;
+  border:1px solid var(--border);
+  border-radius:999px;
+  font-size:.85em;
+  letter-spacing:.2px;
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  color: var(--text);
+}
+
   :root{
     --bg:#0a0c10; --panel:#0e1117; --panel-2:#0b0e14;
     --text:#f5f7fb; --muted:#9aa3b2; --border:#1a2030;
@@ -91,9 +102,14 @@
 
   /* Footer */
   #footer-note { margin-top:.5rem; color: var(--muted); font-size:.85em; font-style: italic; }
-
-  /* Theme badges */
-  .badge { display:inline-block; padding:2px 6px; border:1px solid var(--border); border-radius:6px; margin-right:6px; }
+  /* Micro-graphs */
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+  .kpi-grid { display:grid; grid-template-columns: 16ch 1fr auto; gap: 6px 12px; align-items: baseline; }
+  .spark { white-space: pre; letter-spacing: 1px; }
+  .heatmap { --cols: 30; display: grid; grid-template-columns: repeat(var(--cols), 12px); grid-template-rows: repeat(7, 12px); gap: 3px; }
+  .heat { width: 12px; height: 12px; border-radius: 3px; background: color-mix(in srgb, var(--accent) 12%, transparent); }
+  .heat[style*="--p"] { background: color-mix(in srgb, var(--accent) var(--p, 12%), transparent); }
+  canvas.radar { width: 220px; height: 160px; max-width: 100%; display:block; margin-top:8px; border:1px solid var(--border); border-radius:8px; background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.00)); }
 
 </style>
 </head>
@@ -154,6 +170,8 @@
   const inputEl = document.getElementById('command-input');
   const hintEl = document.getElementById('hint');
   const promptStr = 'guest@parth-portfolio:~$';
+  const termEl = document.getElementById('terminal');
+  const SCROLL_LATENCY = 220; // ms delay before auto-scroll
 
   const history = []; let historyIdx = -1; let skipping = false;
 
@@ -163,8 +181,20 @@
   function printHTML(html){ const div = document.createElement('div'); div.innerHTML = html; outputEl.appendChild(div); scrollToBottom(); return div; }
   function printPromptCommand(command){ const div = document.createElement('div'); div.innerHTML = `<span style="color: var(--accent)">${promptStr}</span> <span>${escapeHtml(command)}</span>`; outputEl.appendChild(div); scrollToBottom(); }
   function clearOutput(){ outputEl.innerHTML = ''; }
-  function scrollToBottom(){ outputEl.scrollTop = outputEl.scrollHeight; }
-  function escapeHtml(str){ return str.replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[s])); }
+  function scrollToBottom(){
+    setTimeout(() => {
+        termEl.scrollTo({
+        top: termEl.scrollHeight,
+        behavior: 'smooth'
+        });
+    }, SCROLL_LATENCY);
+    }
+
+  function escapeHtml(str){
+  const map = { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' };
+  return str.replace(/[&<>\"']/g, ch => map[ch]);
+}
+
 
   async function typeOut(text, speed=14){
     const line = document.createElement('div'); outputEl.appendChild(line); scrollToBottom();
@@ -180,17 +210,75 @@
   function setHint(s){ hintEl.textContent = s || ''; }
 
   // Theming
-  const themes = [
-    {name:'ocean', accent:'#7aa2ff', accent2:'#9b8cff', bg:'#0a0c10', panel:'#0e1117'},
-    {name:'neon', accent:'#00e5ff', accent2:'#7cffc4', bg:'#0a0a0a', panel:'#111'},
+    const themes = [
+    {name:'ocean',  accent:'#7aa2ff', accent2:'#9b8cff', bg:'#0a0c10', panel:'#0e1117'},
+    {name:'neon',   accent:'#00e5ff', accent2:'#7cffc4', bg:'#0a0a0a', panel:'#111111'},
     {name:'sunset', accent:'#ff8a00', accent2:'#ff3d81', bg:'#0b0a10', panel:'#120f16'},
     {name:'forest', accent:'#64d86b', accent2:'#9be15d', bg:'#07100a', panel:'#0d1510'},
   ];
+
+  // Minimal theming hook
   function applyTheme(t){
-    const r = document.documentElement.style;
-    r.setProperty('--accent', t.accent); r.setProperty('--accent-2', t.accent2);
-    r.setProperty('--bg', t.bg); r.setProperty('--panel', t.panel);
+    const r = document.documentElement;
+    r.style.setProperty('--accent',    t.accent);
+    r.style.setProperty('--accent-2',  t.accent2);
+    r.style.setProperty('--bg',        t.bg);
+    r.style.setProperty('--panel',     t.panel);
+    // keep panel-2 in the same family unless you want a different depth
+    r.style.setProperty('--panel-2',   t.panel);
   }
+
+  // Set an initial theme so the canvas and cards pick up variables immediately
+  applyTheme(themes[0]);
+
+  
+
+  // === Micro-graph utilities ===
+  function sparkline(arr){
+    if(!arr || !arr.length) return '';
+    const chars = '▁▂▃▄▅▆▇█';
+    let min = Math.min(...arr), max = Math.max(...arr);
+    if(min === max) return chars[0].repeat(arr.length);
+    return arr.map(v => {
+      const idx = Math.round((v - min) / (max - min) * (chars.length - 1));
+      return chars[idx];
+    }).join('');
+  }
+
+  function drawRadar(canvas){
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    const w = Math.max(200, Math.round(rect.width * dpr));
+    const h = Math.max(150, Math.round(rect.height * dpr));
+    canvas.width = w; canvas.height = h;
+    const cx = w/2, cy = h/2 + 6;
+    const r = Math.min(w,h)*0.36;
+    const ctx = canvas.getContext('2d');
+    const s = getComputedStyle(document.documentElement);
+    const accent = s.getPropertyValue('--accent').trim() || '#7aa2ff';
+    const accent2 = s.getPropertyValue('--accent-2').trim() || '#9b8cff';
+    const values = (canvas.dataset.values||'').split(',').map(x=>parseFloat(x.trim())/100);
+    const n = values.length;
+    // grid
+    ctx.lineWidth = 1; ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+    for(let ring=1; ring<=4; ring++){
+      ctx.beginPath(); const rr = (r*ring)/4; for(let i=0;i<n;i++){ const a=-Math.PI/2 + i*2*Math.PI/n; const x=cx+rr*Math.cos(a), y=cy+rr*Math.sin(a); i?ctx.lineTo(x,y):ctx.moveTo(x,y);} ctx.closePath(); ctx.stroke();
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+    for(let i=0;i<n;i++){ const a=-Math.PI/2 + i*2*Math.PI/n; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+r*Math.cos(a), cy+r*Math.sin(a)); ctx.stroke(); }
+    // polygon
+    ctx.beginPath();
+    for(let i=0;i<n;i++){ const a=-Math.PI/2 + i*2*Math.PI/n; const rr=r*(values[i]||0); const x=cx+rr*Math.cos(a), y=cy+rr*Math.sin(a); i?ctx.lineTo(x,y):ctx.moveTo(x,y);} ctx.closePath();
+    ctx.save(); ctx.globalAlpha = 0.22; ctx.fillStyle = accent; ctx.fill(); ctx.restore();
+    ctx.lineWidth = 2; ctx.strokeStyle = accent2; ctx.stroke();
+  }
+
+  function initChartsIn(root){
+    root.querySelectorAll('canvas[data-chart="radar"]:not([data-init])').forEach(c=>{ drawRadar(c); c.dataset.init='1'; });
+  }
+
+  const _obs = new MutationObserver(muts => { for(const m of muts){ m.addedNodes && m.addedNodes.forEach(n => { if(n.nodeType===1) initChartsIn(n); }); } });
+  _obs.observe(outputEl, { childList: true, subtree: true });
 
   /* =====================================================
      Command registry with rich renderers
@@ -246,19 +334,23 @@
       }
     },
     skills: {
-      desc: 'Animated skill bars',
+      desc: 'Animated skill bars + radar',
       run(){
         const skills = [
           ['Python', 92], ['C++', 85], ['Java', 70], ['PyTorch', 88], ['TensorFlow', 78], ['Pandas/NumPy', 90], ['Plotly', 82]
         ];
-        const html = skills.map(([k,v],i)=> `
+        const html = skills.map(([k,v])=> `
           <div style="display:grid; grid-template-columns: 120px 1fr; gap:10px; align-items:center; margin:6px 0;">
             <div>${k}</div>
             <div class="bar"><span style="--w:${v}%"></span></div>
           </div>`).join('');
-        return renderCard('Skills', html + `<div class="sep"></div><div class="muted">Numbers are illustrative. Recruiters love bars, sadly.</div>`);
+        const vals = skills.map(s=>s[1]).join(',');
+        const labels = skills.map(s=>s[0]).join(',');
+        const radar = `<canvas class="radar" data-chart="radar" data-values="${vals}" data-labels="${labels}"></canvas>`;
+        return renderCard('Skills', html + `<div class="sep"></div>` + radar + `<div class="sep"></div><div class="muted">Numbers are illustrative. Bars lie beautifully; radar lies elegantly.</div>`);
       }
     },
+
     achievements: {
       desc: 'Achievements & highlights',
       run(){
@@ -319,6 +411,24 @@
             <div>Theme</div><div><span class="badge">accent</span> <span class="badge">accent-2</span></div>
           </div>
         `);
+      }
+    },
+    metrics: {
+      desc: 'KPIs with ASCII sparklines',
+      run(){
+        const series = (n, start=50, amp=8) => { const arr=[]; let v=start; for(let i=0;i<n;i++){ v += (Math.random()*2-1)*amp; arr.push(Math.max(0, v)); } return arr; };
+        const kpis = [ ['Queries/day', series(30, 120, 10), ''], ['Latency (ms)', series(30, 180, 14), ''], ['Accuracy (%)', series(30, 88, 2), '%'] ];
+        const rows = kpis.map(([name, data, unit]) => { const val = data[data.length-1].toFixed(unit==='%'?1:0); return `<div>${name}</div><div class="spark mono">${sparkline(data)}</div><div><b>${val}${unit}</b></div>`; }).join('');
+        return renderCard('Metrics', `<div class="kpi-grid">${rows}</div>`);
+      }
+    },
+    activity: {
+      desc: 'Commit-style activity heatmap',
+      run(){
+        const cols = 30, rows = 7; const cells = [];
+        for(let c=0;c<cols;c++){ for(let r=0;r<rows;r++){ const lvl = Math.round(Math.random()*100); let p = lvl<10?12: lvl<30?28: lvl<55?46: lvl<80?64:82; cells.push(`<div class="heat" style="--p:${p}%"></div>`); } }
+        const legend = ['Low','Med','High'].map((t,i)=>{ const p=[20,50,80][i]; return `<span class="badge" style="--p:${p}%; background: color-mix(in srgb, var(--accent) var(--p), transparent); border-color: var(--border);">${t}</span>`; }).join(' ');
+        return renderCard('Activity', `<div class="heatmap" style="--cols:${cols}">${cells.join('')}</div><div class="sep"></div><div class="muted">${legend}</div>`);
       }
     }
   };
@@ -398,7 +508,7 @@
   async function boot(){
     await typeOut("Welcome to Parth Singh's Terminal Portfolio v2.", 24);
     await typeOut('Type "help" for a list of commands.', 24);
-    printHTML('<div id="footer-note">Press Esc to skip typing. Try <code>theme neon</code> or <code>neofetch</code>.</div>');
+    printHTML('<div id="footer-note">Press Esc to skip typing. Try <code>theme neon</code>, <code>metrics</code>, or <code>activity</code>.</div>');
   }
   boot();
 </script>
