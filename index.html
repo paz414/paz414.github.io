@@ -297,12 +297,37 @@
       run(){
         return renderCard('About', `
           <div class="kv">
-            <div>Role</div><div><b>Analytics Engineer</b></div>
-            <div>Focus</div><div>Generative analytics, ML systems, data tooling</div>
-            <div>Institute</div><div>IIT Delhi ‘26</div>
+            <div>Role</div><div><b>Incoming AI/ML Engineer</b> — Aladdin Engineering, BlackRock</div>
+            <div>Focus</div><div>Generative analytics, ML systems, data tooling, quantitative finance</div>
+            <div>Institute</div><div>IIT Delhi '26 — B.Tech Mechanical Engg. (CS Minor)</div>
+            <div>Portfolio</div><div><a href="https://paz414.github.io" target="_blank" rel="noopener">paz414.github.io</a></div>
           </div>
           <div class="sep"></div>
           <div class="muted">I ship clean, production-grade features that move metrics.</div>
+        `);
+      }
+    },
+    education: {
+      desc: 'Academic background',
+      run(){
+        return renderCard('Education', `
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-head">B.Tech, Mechanical Engineering (CS Minor)</div>
+              <div class="tl-meta">Indian Institute of Technology, Delhi · 2022–2026</div>
+              <div>CGPA: <b>7.82</b></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-head">ISC — Class XII</div>
+              <div class="tl-meta">Seth M.R Jaipuria School · 2022</div>
+              <div>Marks: <b>99%</b></div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-head">ICSE — Class X</div>
+              <div class="tl-meta">Seth M.R Jaipuria School · 2020</div>
+              <div>Marks: <b>96.4%</b></div>
+            </div>
+          </div>
         `);
       }
     },
@@ -312,9 +337,15 @@
         return renderCard('Experience', `
           <div class="timeline">
             <div class="tl-item">
-              <div class="tl-head">Analytics Engineer Intern · Chubb</div>
-              <div class="tl-meta">Bengaluru · May 2025 – Jul 2025 · PPO</div>
-              <div>BI Agent (NL→SQL), auto Plotly dashboards, outlier IQR, root-cause tagging, token-aware batching.</div>
+              <div class="tl-head">AI/ML Engineer · Aladdin Engineering, BlackRock</div>
+              <div class="tl-meta">Incoming · Joining by end of June 2026</div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-head">Analytics Engineer Intern · Chubb Limited</div>
+              <div class="tl-meta">Bengaluru · May 2025 – July 2025 · <span style="color:var(--good)">PPO Received</span></div>
+              <div>• Built a scalable pipeline handling 7.4K+ complaints with temporal normalization and IQR-driven outlier detection.</div>
+              <div>• Optimized Azure OpenAI GPT by batching 20 entries/call — reduced API calls 95%, runtime 20h→45m, token use ~70%.</div>
+              <div>• Deployed GPT workflows converting unstructured case notes into layered categories for targeted process improvements.</div>
             </div>
           </div>
         `);
@@ -324,12 +355,43 @@
       desc: 'Selected projects in panel view',
       run(){
         const items = [
-          {t:'Railway Incident Prediction (CRIS)', s:'ML, Data', d:'Predictive models for failures with fault code alignment.'},
-          {t:'Real-Time Market Forecasting (Jane Street)', s:'Quant, ML', d:'TimeXer R² 0.87, faster imputation, exo/endogenous inputs.'},
-          {t:'Parallel Graph Centrality (OpenMP)', s:'Systems', d:'100k+ nodes, 13M edges, degree and betweenness.'},
-          {t:'Virtual Machine (C++)', s:'Systems', d:'Custom stack VM with assembler and ISA.'}
+          {
+            t: 'Portfolio Optimization & Backtesting Platform',
+            s: 'Quant, Finance, ML · Self Project · Mar 2025 – Jun 2025',
+            d: 'Modern Portfolio Theory with CVXPY convex optimizers; min-variance, efficient-frontier, max-Sharpe portfolios. Backtested 5 NSE portfolios (2023–25): +22% Sharpe uplift, −14% max-drawdown.'
+          },
+          {
+            t: 'Real-Time Market Data Forecasting',
+            s: 'Quant, ML · Prof. Prashant Palkar · Jan 2025 – May 2025',
+            d: 'TimeXer model forecasting real-time market trends, training 8B weights across 176+ parameters. Weighted R²=0.87, cut imputation time 8×.'
+          },
+          {
+            t: 'Production-Grade Generative BI Agent',
+            s: 'GenAI, Analytics · Chubb Hackathon · Jun 2025 – Jul 2025',
+            d: 'GPT-4 agent delivering NL→SQL pipeline with Snowflake, domain-aware filtering, iterative SQL repair, caching, relevance scoring, and anticipatory query-suggestion. Global Rank 9/500+.'
+          },
+          {
+            t: 'Compression of Neural Networks via Deterministic Annealing',
+            s: 'ML Research · Prof. Amber Srivastava · May 2025 – Present',
+            d: 'Deterministic Annealing frameworks cutting nodes 87.5%, boosting representativeness 92% vs baselines. L0 regularization on LeNet-5: 95% sparsity, 1% MNIST error, 3× faster inference. 100× parameter reduction with <1% accuracy loss.'
+          },
+          {
+            t: 'Parallelized Neural Network Training with GPU Acceleration',
+            s: 'Systems, C++ · Self Project · Mar 2025 – May 2025',
+            d: 'Neural network training in C++ parallelized with OpenMP (3.5× speedup, 95% accuracy). OpenACC GPU parallelism delivering up to 12× faster performance than CPU baselines.'
+          },
+          {
+            t: 'Anomaly Detection System for Resume Profiles',
+            s: 'ML · Eightfold AI Hackathon · Sept 2024 – Oct 2024',
+            d: 'BiLSTM autoencoder framework with 92% precision for scalable anomaly detection. Silhouette score 0.87, improving clustering across 2,000 profiles for reliable fraud identification.'
+          },
+          {
+            t: 'Railway Incident Prediction (CRIS)',
+            s: 'ML · Prof. Minakshi Kumari · Jan 2025 – Present',
+            d: 'ARIMA-LSTM hybrid with AdaBoost-Bagging across 50,000+ records. 85% accuracy in high-risk zone detection; optimized risk zoning for Indian Railways safety protocols.'
+          }
         ];
-        const list = items.map(it => `<div class="terminal-card"><div class="card-title">${it.t}</div><div class="muted">${it.s}</div><div>${it.d}</div></div>`).join('');
+        const list = items.map(it => `<div class="terminal-card"><div class="card-title">${it.t}</div><div class="muted" style="font-size:.88em; margin-bottom:4px;">${it.s}</div><div>${it.d}</div></div>`).join('');
         return renderCard('Projects', list);
       }
     },
@@ -337,17 +399,23 @@
       desc: 'Animated skill bars + radar',
       run(){
         const skills = [
-          ['Python', 92], ['C++', 85], ['Java', 70], ['PyTorch', 88], ['TensorFlow', 78], ['Pandas/NumPy', 90], ['Plotly', 82]
+          ['Python', 92], ['C++', 85], ['Java', 75], ['JavaScript', 68], ['SQL', 82],
+          ['PyTorch', 88], ['TensorFlow', 78], ['Pandas/NumPy', 90],
+          ['LangChain', 80], ['HuggingFace', 78], ['Scikit-Learn', 85],
+          ['OpenCV', 72], ['Streamlit', 82], ['OpenMP/OpenACC', 78]
         ];
         const html = skills.map(([k,v])=> `
-          <div style="display:grid; grid-template-columns: 120px 1fr; gap:10px; align-items:center; margin:6px 0;">
+          <div style="display:grid; grid-template-columns: 160px 1fr; gap:10px; align-items:center; margin:6px 0;">
             <div>${k}</div>
             <div class="bar"><span style="--w:${v}%"></span></div>
           </div>`).join('');
-        const vals = skills.map(s=>s[1]).join(',');
-        const labels = skills.map(s=>s[0]).join(',');
+        const radarSkills = [['Python',92],['C++',85],['PyTorch',88],['SQL',82],['LangChain',80],['OpenMP',78]];
+        const vals = radarSkills.map(s=>s[1]).join(',');
+        const labels = radarSkills.map(s=>s[0]).join(',');
         const radar = `<canvas class="radar" data-chart="radar" data-values="${vals}" data-labels="${labels}"></canvas>`;
-        return renderCard('Skills', html + `<div class="sep"></div>` + radar + `<div class="sep"></div><div class="muted">Numbers are illustrative. Bars lie beautifully; radar lies elegantly.</div>`);
+        const tools = ['Git','Docker','Snowflake','Azure OpenAI','CVXPY','Streamlit'].map(t=>`<span class="badge">${t}</span>`).join(' ');
+        const courses = ['ML for Operations Research','Principles of AI','Econometric Methods','Data Structures and Algorithms'].map(t=>`<span class="badge">${t}</span>`).join(' ');
+        return renderCard('Skills', html + `<div class="sep"></div>` + radar + `<div class="sep"></div><div><b>Tools & Platforms</b><br>${tools}</div><div class="sep"></div><div><b>Relevant Courses</b><br>${courses}</div><div class="sep"></div><div class="muted">Numbers are illustrative. Bars lie beautifully; radar lies elegantly.</div>`);
       }
     },
 
@@ -355,27 +423,23 @@
       desc: 'Achievements & highlights',
       run(){
         const list = [
-          'Global Rank 9/500+ in Chubb hackathon (BI agent)',
-          'Exchange Exam Rank 10/1200+ at IIT Delhi; KAIST offer',
-          'Endowment Merit Scholarship (Top 5% dept.)',
-          'Merit-based Branch Change (Top 7% first-year)',
-          'INSPIRE Scholarship (Top 1% Class XII)',
-          'JEE Advanced AIR 2291 (Top 0.9%)'
-        ].map(x=>`• ${x}`).join('<br>');
+          ['Chubb Global Hackathon', 'Global Rank 9 / 500+ teams — Generative BI Agent (2025)'],
+          ['Student Exchange Exam', 'Rank 10 / 1200+ at IIT Delhi; KAIST South Korea offer (2024)'],
+          ['Endowment Merit Scholarship', 'Top 5% of department at IIT Delhi (2023)'],
+          ['Merit-based Branch Change', 'Top 7% of all first-year undergraduates at IIT Delhi (2023)'],
+          ['INSPIRE Scholarship', 'Top 1% meritorious Class 12th students across all major Indian boards (2022)'],
+          ['JEE Advanced', 'AIR 2291 — Top 0.9 percentile among 250k students, IIT-Bombay (2022)']
+        ].map(([title, detail]) => `<div style="margin:6px 0;"><span style="color:var(--accent); font-weight:700;">• ${title}</span><br><span class="muted" style="padding-left:10px;">${detail}</span></div>`).join('');
         return renderCard('Achievements', list);
       }
-    },
-    education: {
-      desc: 'Academic background',
-      run(){ return renderCard('Education', `<b>IIT Delhi</b><br>B.Tech (2022–2026) — CGPA 7.817`); }
     },
     extras: {
       desc: 'Activities beyond work',
       run(){
         return renderCard('Beyond Work', `
-          • Academic Mentor, ELL101 (2023)<br>
-          • Captain, Lawn Tennis — Satpura Hostel (2024)<br>
-          • WCA Rankings: #140 India, #3358 World (2024)
+          <div style="margin:6px 0;"><span style="color:var(--accent); font-weight:700;">• Hostel Lawn Tennis Captain</span><br><span class="muted" style="padding-left:10px;">Board for Sports Activities, Satpura Hostel — Led team in General Championship, organized regular practice sessions. (Jan 2024 – Jan 2025)</span></div>
+          <div style="margin:6px 0;"><span style="color:var(--accent); font-weight:700;">• Academic Mentor</span><br><span class="muted" style="padding-left:10px;">ELL101 — Mentored junior undergraduate students. (2023)</span></div>
+          <div style="margin:6px 0;"><span style="color:var(--accent); font-weight:700;">• WCA Speed Cubing</span><br><span class="muted" style="padding-left:10px;">Ranked #140 India, #3358 World (2024)</span></div>
         `);
       }
     },
